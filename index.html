@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AETHERIA — Luxury Routine & Life OS</title>
+    <meta name="theme-color" content="#03120b">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Outfit', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        emeraldDeep: '#020b07',
+                        emeraldGlass: 'rgba(6, 34, 23, 0.55)',
+                        neonMint: '#10b981',
+                        goldAccent: '#fbbf24'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+            scrollbar-width: thin;
+            scrollbar-color: #10b981 #020b07;
+        }
+        body {
+            background-color: #020b07;
+            color: #ecfdf5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* Cosmic Nebula & Deep Dark Green Glow */
+        .cosmic-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 25%, rgba(5, 150, 105, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, rgba(4, 120, 87, 0.22) 0%, transparent 55%),
+                linear-gradient(180deg, #010805 0%, #03140c 50%, #010906 100%);
+        }
+        /* Subtle Luxury Grain Texture */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        /* Frosted Luxury Glass Card */
+        .lux-glass {
+            background: rgba(6, 28, 19, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(16, 185, 129, 0.22);
+            box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lux-glass:hover {
+            border-color: rgba(16, 185, 129, 0.42);
+            box-shadow: 0 15px 45px -10px rgba(16, 185, 129, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+        }
+        .lux-input {
+            background: rgba(2, 14, 9, 0.75);
+            border: 1px solid rgba(16, 185, 129, 0.28);
+            color: #ecfdf5;
+            transition: all 0.25s ease;
+        }
+        .lux-input:focus {
+            outline: none;
+            border-color: #34d399;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+        }
+        .emerald-btn {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
+            transition: all 0.25s ease;
+        }
+        .emerald-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        }
+        .emerald-btn:active {
+            transform: translateY(0);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.7); }
+        }
+        .alarm-ringing {
+            animation: pulseGlow 1.2s infinite;
+        }
+    </style>
+</head>
+<body class="pb-28 selection:bg-emerald-500 selection:text-black">
+
+    <!-- Background Layers: Cosmic Nebula + Interactive Starfield + Grain -->
+    <div class="cosmic-bg"></div>
+    <canvas id="cosmosCanvas" class="fixed inset-0 pointer-events-none" style="z-index: -2;"></canvas>
+    <div class="noise-overlay"></div>
+
+    <!-- Top Navigation & Luxury Status Bar -->
+    <header class="sticky top-0 z-30 lux-glass border-b border-emerald-500/20 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand Identity -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-900 flex items-center justify-center shadow-lg shadow-emerald-500/20 border border-emerald-300/30">
+                    <i class="fa-solid fa-atom text-xl text-white animate-spin" style="animation-duration: 14s;"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-heading font-extrabold text-xl tracking-wider bg-gradient-to-r from-white via-emerald-200 to-emerald-400 bg-clip-text text-transparent">AETHERIA</h1>
+                        <span class="text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 font-semibold">PRO OS</span>
+                    </div>
+                    <p class="text-xs text-emerald-300/70 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span id="liveGreeting">Welcome back,</span>
+                        <button onclick="editUserName()" class="font-semibold text-emerald-200 underline decoration-emerald-500/50 hover:text-white" id="userNameDisplay">Commander</button>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Live Clock & Gamification Status -->
+            <div class="flex items-center gap-3 ml-auto">
+                <!-- Ambient Cosmic Sound Button -->
+                <button onclick="toggleCosmicAudio()" id="ambientBtn" title="Cosmic Ambient Focus Sound" class="lux-glass px-3 py-2 rounded-xl text-xs flex items-center gap-2 text-emerald-200 hover:text-white">
+                    <i class="fa-solid fa-wave-square text-emerald-400"></i>
+                    <span class="hidden sm:inline" id="ambientStatus">Zen Audio</span>
+                </button>
+
+                <!-- Streak Badge -->
+                <div class="lux-glass px-3 py-1.5 rounded-xl flex items-center gap-1.5 border border-amber-500/30">
+                    <i class="fa-solid fa-fire text-amber-400 text-sm"></i>
+                    <span id="streakCount" class="font-heading font-bold text-sm text-amber-200">1</span>
+                    <span class="text-[10px] text-amber-300/70 uppercase">Days</span>
+                </div>
+
+                <!-- Digital Clock -->
+                <div class="lux-glass px-3.5 py-1.5 rounded-xl text-right hidden xs:block">
+                    <div id="liveClock" class="font-heading font-bold text-sm md:text-base text-emerald-100 tracking-wider">00:00:00</div>
+                    <div id="liveDate" class="text-[10px] text-emerald-400/80 uppercase tracking-widest">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
+
+        <!-- HERO DASHBOARD: Level Progress, Daily Completion & Next Alarm -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Level & XP Card -->
+            <div class="lux-glass rounded-3xl p-5 lg:col-span-2 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Current Ascension</span>
+                        <div class="flex items-baseline gap-3 mt-0.5">
+                            <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white glow-text" id="userRankTitle">Cosmic Initiate</h2>
+                            <span class="px-2.5 py-0.5 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 font-heading font-bold text-xs">LVL <span id="userLevel">1</span></span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-emerald-300/80">Total Experience</div>
+                        <div class="font-heading text-xl font-bold text-emerald-300"><span id="userXP">0</span> <span class="text-xs text-emerald-500">/ <span id="nextLevelXP">100</span> XP</span></div>
+                    </div>
+                </div>
+
+                <!-- XP Progress Bar -->
+                <div class="w-full h-3 bg-black/50 rounded-full overflow-hidden border border-emerald-500/20 p-0.5 mb-4">
+                    <div id="xpBar" class="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-300 transition-all duration-500" style="width: 0%"></div>
+                </div>
+
+                <!-- Daily Completion Stats Row -->
+                <div class="grid grid-cols-3 gap-3 pt-2 border-t border-emerald-500/15 text-center">
+                    <div class="bg-black/25 rounded-2xl p-2.5 border border-emerald-500/10">
+                        <div class="text-[11px] text-emerald-300/70">Today's Routine</div>
+                        <div class="font-heading font-bold text-lg text-white mt-0.5" id="statRoutineDone">0 / 0</div>
+                    </div>
+                    <div class="bg-black/25 rounded-2xl p-2.5 border border-emerald-500/10">
+                        <div class="text-[11px] text-emerald-300/70">Completion Rate</div>
+                        <div class="font-heading font-bold text-lg text-emerald-400 mt-0.5" id="statCompletionPct">0%</div>
+                    </div>
+                    <div class="bg-black/25 rounded-2xl p-2.5 border border-emerald-500/10">
+                        <div class="text-[11px] text-emerald-300/70">Active Alarms</div>
+                        <div class="font-heading font-bold text-lg text-amber-300 mt-0.5" id="statActiveAlarms">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Upcoming Task & Quick Alarm Test Card -->
+            <div class="lux-glass rounded-3xl p-5 flex flex-col justify-between relative overflow-hidden">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold flex items-center gap-1.5">
+                            <i class="fa-solid fa-bell text-amber-400 animate-bounce"></i> Next Scheduled
+                        </span>
+                        <button onclick="testAlarmSound()" class="text-[11px] px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-200 border border-emerald-500/30 transition">
+                            <i class="fa-solid fa-volume-high mr-1"></i>Test Alarm
+                        </button>
+                    </div>
+                    <div id="nextTaskBox" class="my-3 p-3.5 rounded-2xl bg-black/35 border border-emerald-500/20">
+                        <div class="text-sm font-semibold text-white truncate" id="nextTaskTitle">No upcoming alarm</div>
+                        <div class="text-xs text-emerald-300/80 mt-1 flex items-center justify-between">
+                            <span id="nextTaskTime">--:--</span>
+                            <span id="nextTaskCategory" class="px-2 py-0.5 rounded bg-emerald-500/20 text-[10px]">Standby</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-emerald-500/15">
+                    <button onclick="exportUserData()" class="flex-1 py-2 px-3 rounded-xl bg-black/40 hover:bg-emerald-950 text-xs text-emerald-200 border border-emerald-500/20 transition">
+                        <i class="fa-solid fa-download mr-1"></i> Backup
+                    </button>
+                    <button onclick="resetDayProgress()" class="flex-1 py-2 px-3 rounded-xl bg-black/40 hover:bg-amber-950/60 text-xs text-amber-200 border border-amber-500/20 transition">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> New Day
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- NAVIGATION TABS (Mobile & Desktop) -->
+        <nav class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            <button onclick="switchTab('routine')" id="tabBtn-routine" class="tab-btn emerald-btn text-white px-5 py-2.5 rounded-2xl font-heading font-semibold text-sm flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-clock"></i> Daily Routine & Alarms
+            </button>
+            <button onclick="switchTab('habits')" id="tabBtn-habits" class="tab-btn lux-glass text-emerald-200 hover:text-white px-5 py-2.5 rounded-2xl font-heading font-semibold text-sm flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-fire-flame-curved"></i> Custom Habits
+            </button>
+            <button onclick="switchTab('focus')" id="tabBtn-focus" class="tab-btn lux-glass text-emerald-200 hover:text-white px-5 py-2.5 rounded-2xl font-heading font-semibold text-sm flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-hourglass-half"></i> Cosmic Focus Timer
+            </button>
+            <button onclick="switchTab('vault')" id="tabBtn-vault" class="tab-btn lux-glass text-emerald-200 hover:text-white px-5 py-2.5 rounded-2xl font-heading font-semibold text-sm flex items-center gap-2 shrink-0">
+                <i class="fa-solid fa-sliders"></i> Customizer & Notes
+            </button>
+        </nav>
+
+        <!-- ==================== TAB 1: DAILY ROUTINE & ALARMS ==================== -->
+        <section id="tab-routine" class="space-y-6">
+            <!-- Add New Routine Item Form -->
+            <div class="lux-glass rounded-3xl p-5">
+                <h3 class="font-heading font-bold text-lg text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-emerald-400"></i> Schedule New Routine & Alarm
+                </h3>
+                <form id="routineForm" onsubmit="addRoutineItem(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    <input type="text" id="rTitle" required placeholder="What will you do? (e.g. Morning Study)" class="lux-input rounded-2xl px-4 py-3 text-sm lg:col-span-2">
+                    
+                    <input type="time" id="rTime" required class="lux-input rounded-2xl px-4 py-3 text-sm">
+                    
+                    <select id="rCategory" class="lux-input rounded-2xl px-4 py-3 text-sm">
+                        <!-- Dynamically populated categories -->
+                    </select>
+
+                    <button type="submit" class="emerald-btn text-white font-heading font-bold rounded-2xl px-5 py-3 text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bell"></i> Add to Routine
+                    </button>
+                </form>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2 overflow-x-auto pb-1" id="categoryFilterBar">
+                    <!-- Dynamic filter pills -->
+                </div>
+                <div class="text-xs text-emerald-300/70">
+                    <i class="fa-solid fa-circle-info mr-1 text-emerald-400"></i> Complete tasks to earn <span class="text-amber-300 font-semibold">+25 XP</span>
+                </div>
+            </div>
+
+            <!-- Routine Timeline List -->
+            <div id="routineListContainer" class="space-y-3">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: CUSTOM HABIT TRACKER ==================== -->
+        <section id="tab-habits" class="hidden space-y-6">
+            <div class="lux-glass rounded-3xl p-5">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h3 class="font-heading font-bold text-lg text-white">7-Day Habit Matrix</h3>
+                        <p class="text-xs text-emerald-300/70">Build unbreakable discipline. Each check grants +15 XP.</p>
+                    </div>
+                    <form onsubmit="addNewHabit(event)" class="flex items-center gap-2 w-full sm:w-auto">
+                        <input type="text" id="newHabitInput" required placeholder="New habit (e.g. Drink 3L Water)" class="lux-input rounded-xl px-3.5 py-2 text-sm flex-1 sm:w-60">
+                        <button type="submit" class="emerald-btn px-4 py-2 rounded-xl text-sm font-semibold text-white shrink-0">
+                            <i class="fa-solid fa-plus mr-1"></i> Add
+                        </button>
+                    </form>
+                </div>
+
+                <div id="habitsContainer" class="space-y-3">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: COSMIC FOCUS TIMER ==================== -->
+        <section id="tab-focus" class="hidden">
+            <div class="lux-glass rounded-3xl p-6 sm:p-10 text-center max-w-xl mx-auto relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs uppercase tracking-widest font-semibold">Deep Work Chamber</span>
+                
+                <h3 id="focusSessionLabel" class="font-heading text-xl font-bold text-white mt-4">25m Hyper-Focus Session</h3>
+
+                <!-- Giant Glowing Timer -->
+                <div class="my-8 relative inline-flex items-center justify-center">
+                    <div class="w-56 h-56 sm:w-64 sm:h-64 rounded-full border-4 border-emerald-500/30 flex flex-col items-center justify-center bg-black/40 shadow-2xl shadow-emerald-900/50">
+                        <div id="focusTimerDisplay" class="font-heading text-5xl sm:text-6xl font-extrabold text-white glow-text tracking-wider">25:00</div>
+                        <div id="focusTimerSub" class="text-xs text-emerald-400 uppercase tracking-widest mt-2">Ready to lock in</div>
+                    </div>
+                </div>
+
+                <!-- Preset Durations -->
+                <div class="flex justify-center gap-2 mb-6 flex-wrap">
+                    <button onclick="setFocusDuration(15, '15m Sprint Session')" class="px-3.5 py-1.5 rounded-xl lux-glass text-xs text-emerald-200 hover:text-white">15 Min</button>
+                    <button onclick="setFocusDuration(25, '25m Pomodoro Focus')" class="px-3.5 py-1.5 rounded-xl lux-glass text-xs text-emerald-200 hover:text-white">25 Min</button>
+                    <button onclick="setFocusDuration(45, '45m Deep Monk Mode')" class="px-3.5 py-1.5 rounded-xl lux-glass text-xs text-emerald-200 hover:text-white">45 Min</button>
+                    <button onclick="setFocusDuration(60, '60m Ultra Marathon')" class="px-3.5 py-1.5 rounded-xl lux-glass text-xs text-emerald-200 hover:text-white">60 Min</button>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex justify-center gap-3">
+                    <button onclick="toggleFocusTimer()" id="focusStartBtn" class="emerald-btn px-8 py-3 rounded-2xl font-heading font-bold text-white text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> Start Session
+                    </button>
+                    <button onclick="resetFocusTimer()" class="lux-glass px-5 py-3 rounded-2xl font-heading font-semibold text-emerald-200 hover:text-white text-sm">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: USER CUSTOMIZER & BRAIN DUMP NOTES ==================== -->
+        <section id="tab-vault" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Custom Category & Alarm Sound Creator -->
+            <div class="lux-glass rounded-3xl p-5 space-y-5">
+                <div>
+                    <h3 class="font-heading font-bold text-lg text-white flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i> Personalize Your OS
+                    </h3>
+                    <p class="text-xs text-emerald-300/70">Anyone using this app can add their own custom categories & alarm tones.</p>
+                </div>
+
+                <!-- Add Custom Category -->
+                <form onsubmit="addCustomCategory(event)" class="space-y-2">
+                    <label class="text-xs text-emerald-200 font-semibold">Create Custom Routine Category</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="newCategoryInput" required placeholder="e.g. Coding, Prayer, Gym, Business" class="lux-input rounded-xl px-3.5 py-2.5 text-sm flex-1">
+                        <button type="submit" class="emerald-btn px-4 py-2.5 rounded-xl text-sm font-semibold text-white">Add Tag</button>
+                    </div>
+                </form>
+
+                <div>
+                    <div class="text-xs text-emerald-300/80 mb-2">Your Active Categories:</div>
+                    <div id="customCategoriesList" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Alarm Tone Selector -->
+                <div class="pt-3 border-t border-emerald-500/20">
+                    <label class="text-xs text-emerald-200 font-semibold block mb-2">Select Alarm Sound Signature</label>
+                    <select id="alarmToneSelect" onchange="saveAlarmTone()" class="lux-input w-full rounded-xl px-3.5 py-2.5 text-sm">
+                        <option value="cosmic">Cosmic Emerald Chime (Default)</option>
+                        <option value="cyber">Cyber Pulse Beep</option>
+                        <option value="royal">Royal Harmonic Bell</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Instant Brain Dump / Scratchpad -->
+            <div class="lux-glass rounded-3xl p-5 flex flex-col">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <h3 class="font-heading font-bold text-lg text-white flex items-center gap-2">
+                            <i class="fa-solid fa-feather-pointed text-emerald-400"></i> Encrypted Scratchpad
+                        </h3>
+                        <p class="text-xs text-emerald-300/70">Auto-saves goals, ideas & reminders directly on your device.</p>
+                    </div>
+                    <span id="noteSaveBadge" class="text-[11px] px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300">Saved</span>
+                </div>
+                <textarea id="quickNotesArea" oninput="saveQuickNotes()" rows="8" placeholder="Write your daily goals, project ideas, or personal reminders here..." class="lux-input w-full flex-1 rounded-2xl p-4 text-sm resize-none"></textarea>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ALARM RINGING MODAL OVERLAY -->
+    <div id="alarmModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="lux-glass alarm-ringing max-w-md w-full rounded-3xl p-6 text-center border-2 border-emerald-400">
+            <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center mb-4">
+                <i class="fa-solid fa-bell text-3xl text-emerald-300 animate-bounce"></i>
+            </div>
+            <span class="text-xs uppercase tracking-widest text-amber-300 font-bold">Scheduled Routine Alert</span>
+            <h2 id="alarmModalTitle" class="font-heading text-2xl font-extrabold text-white mt-2">Time for Routine!</h2>
+            <p id="alarmModalTime" class="text-sm text-emerald-300 mt-1">00:00</p>
+
+            <div class="mt-6 flex gap-3">
+                <button onclick="completeFromAlarm()" class="flex-1 emerald-btn py-3 rounded-2xl font-heading font-bold text-white text-sm">
+                    <i class="fa-solid fa-check mr-1"></i> Start & Claim +25 XP
+                </button>
+                <button onclick="stopAlarmModal()" class="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold">
+                    Dismiss
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==============================================================
+           1. STATE MANAGEMENT (Isolated per device for 1000+ users)
+        ============================================================== */
+        const STORAGE_KEY = 'AETHERIA_LIFE_OS_V1';
+        let audioCtx = null;
+        let alarmInterval = null;
+        let currentRingingTaskId = null;
+        let selectedCategoryFilter = 'All';
+
+        const defaultState = {
+            userName: 'Commander',
+            xp: 50,
+            streak: 1,
+            alarmTone: 'cosmic',
+            notes: '✨ Welcome to AETHERIA Life OS!\n- Set your daily routine times.\n- Keep this tab open or install to Home Screen for live alarms.',
+            categories: ['Study', 'Workout', 'Work', 'Mindfulness', 'Personal'],
+            routines: [
+                { id: 'r1', title: 'Morning Deep Study & Review', time: '07:00', category: 'Study', completed: false, alarmEnabled: true, lastTriggered: '' },
+                { id: 'r2', title: 'Skill Coding & Project Build', time: '10:30', category: 'Work', completed: false, alarmEnabled: true, lastTriggered: '' },
+                { id: 'r3', title: 'Afternoon Fitness & Football', time: '16:30', category: 'Workout', completed: false, alarmEnabled: true, lastTriggered: '' },
+                { id: 'r4', title: 'Night Revision & Next Day Plan', time: '21:30', category: 'Personal', completed: false, alarmEnabled: true, lastTriggered: '' }
+            ],
+            habits: [
+                { id: 'h1', name: '2 Hours Focused Study', days: [false, false, false, false, false, false, false] },
+                { id: 'h2', name: 'Physical Exercise / Walk', days: [false, false, false, false, false, false, false] },
+                { id: 'h3', name: 'Zero Procrastination', days: [false, false, false, false, false, false, false] }
+            ]
+        };
+
+        let state = loadState();
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? { ...defaultState, ...JSON.parse(raw) } : defaultState;
+            } catch (e) {
+                return defaultState;
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateDashboardStats();
+        }
+
+        /* ==============================================================
+           2. WEB AUDIO SYNTHESIZER (Zero External MP3 Dependencies)
+        ============================================================== */
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playChimeSequence() {
+            initAudio();
+            const now = audioCtx.currentTime;
+            const tone = state.alarmTone || 'cosmic';
+            const freqs = tone === 'cyber' ? [523.25, 659.25, 783.99, 1046.5] :
+                          tone === 'royal' ? [440, 554.37, 659.25, 880] :
+                                             [392.00, 493.88, 587.33, 783.99];
+
+            freqs.forEach((f, idx) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = tone === 'cyber' ? 'sawtooth' : 'sine';
+                osc.frequency.setValueAtTime(f, now + idx * 0.14);
+
+                gain.gain.setValueAtTime(0.001, now + idx * 0.14);
+                gain.gain.exponentialRampToValueAtTime(0.2, now + idx * 0.14 + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.14 + 0.65);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now + idx * 0.14);
+                osc.stop(now + idx * 0.14 + 0.7);
+            });
+        }
+
+        function testAlarmSound() {
+            playChimeSequence();
+        }
+
+        // Cosmic Ambient Zen Noise Generator
+        let ambientNode = null;
+        let ambientGain = null;
+        function toggleCosmicAudio() {
+            initAudio();
+            const btn = document.getElementById('ambientBtn');
+            const label = document.getElementById('ambientStatus');
+            if (ambientNode) {
+                ambientNode.stop();
+                ambientNode.disconnect();
+                ambientNode = null;
+                btn.classList.remove('border-emerald-400', 'bg-emerald-900/50');
+                label.textContent = 'Zen Audio';
+                return;
+            }
+            const bufferSize = 2 * audioCtx.sampleRate;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                output[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = output[i];
+                output[i] *= 0.12; // Soft soothing cosmic drone
+            }
+            ambientNode = audioCtx.createBufferSource();
+            ambientNode.buffer = noiseBuffer;
+            ambientNode.loop = true;
+            ambientGain = audioCtx.createGain();
+            ambientGain.gain.value = 0.35;
+            ambientNode.connect(ambientGain);
+            ambientGain.connect(audioCtx.destination);
+            ambientNode.start();
+            btn.classList.add('border-emerald-400', 'bg-emerald-900/50');
+            label.textContent = 'Playing Zen';
+        }
+
+        /* ==============================================================
+           3. LIVE CLOCK & REAL-TIME ALARM ENGINE
+        ============================================================== */
+        function tickClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const secs = String(now.getSeconds()).padStart(2, '0');
+            const currentHM = `${hours}:${mins}`;
+            const todayKey = now.toDateString();
+
+            document.getElementById('liveClock').textContent = `${hours}:${mins}:${secs}`;
+            document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+            // Dynamic Greeting
+            const hr = now.getHours();
+            const greet = hr < 12 ? 'Good Morning,' : hr < 18 ? 'Good Afternoon,' : 'Good Evening,';
+            document.getElementById('liveGreeting').textContent = greet;
+
+            // Check if any routine matches current HH:MM
+            state.routines.forEach(item => {
+                if (item.alarmEnabled && !item.completed && item.time === currentHM && item.lastTriggered !== todayKey) {
+                    item.lastTriggered = todayKey;
+                    saveState();
+                    triggerAlarmModal(item);
+                }
+            });
+        }
+        setInterval(tickClock, 1000);
+
+        function triggerAlarmModal(task) {
+            currentRingingTaskId = task.id;
+            document.getElementById('alarmModalTitle').textContent = task.title;
+            document.getElementById('alarmModalTime').textContent = `Scheduled for ${formatTime12(task.time)} • ${task.category}`;
+            document.getElementById('alarmModal').classList.remove('hidden');
+
+            playChimeSequence();
+            if (alarmInterval) clearInterval(alarmInterval);
+            alarmInterval = setInterval(playChimeSequence, 2500);
+
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification("AETHERIA Routine Alert", { body: `${task.title} (${formatTime12(task.time)})` });
+            }
+        }
+
+        function stopAlarmModal() {
+            if (alarmInterval) clearInterval(alarmInterval);
+            document.getElementById('alarmModal').classList.add('hidden');
+            currentRingingTaskId = null;
+        }
+
+        function completeFromAlarm() {
+            if (currentRingingTaskId) {
+                toggleRoutineComplete(currentRingingTaskId, true);
+            }
+            stopAlarmModal();
+        }
+
+        /* ==============================================================
+           4. ROUTINE & CUSTOMIZATION FUNCTIONS
+        ============================================================== */
+        function formatTime12(time24) {
+            if (!time24) return '--:--';
+            const [h, m] = time24.split(':').map(Number);
+            const suffix = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${String(h12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${suffix}`;
+        }
+
+        function addRoutineItem(e) {
+            e.preventDefault();
+            initAudio();
+            if ("Notification" in window && Notification.permission === "default") {
+                Notification.requestPermission();
+            }
+            const title = document.getElementById('rTitle').value.trim();
+            const time = document.getElementById('rTime').value;
+            const category = document.getElementById('rCategory').value;
+            if (!title || !time) return;
+
+            state.routines.push({
+                id: 'r_' + Date.now(),
+                title,
+                time,
+                category,
+                completed: false,
+                alarmEnabled: true,
+                lastTriggered: ''
+            });
+
+            state.routines.sort((a, b) => a.time.localeCompare(b.time));
+            document.getElementById('rTitle').value = '';
+            saveState();
+            renderRoutines();
+        }
+
+        function toggleRoutineComplete(id, forceTrue = false) {
+            const item = state.routines.find(r => r.id === id);
+            if (!item) return;
+            const wasCompleted = item.completed;
+            item.completed = forceTrue ? true : !item.completed;
+
+            if (!wasCompleted && item.completed) {
+                state.xp += 25;
+                playChimeSequence();
+            } else if (wasCompleted && !item.completed) {
+                state.xp = Math.max(0, state.xp - 25);
+            }
+            saveState();
+            renderRoutines();
+        }
+
+        function toggleRoutineAlarm(id) {
+            const item = state.routines.find(r => r.id === id);
+            if (!item) return;
+            item.alarmEnabled = !item.alarmEnabled;
+            saveState();
+            renderRoutines();
+        }
+
+        function deleteRoutine(id) {
+            state.routines = state.routines.filter(r => r.id !== id);
+            saveState();
+            renderRoutines();
+        }
+
+        function renderRoutines() {
+            const container = document.getElementById('routineListContainer');
+            const filtered = selectedCategoryFilter === 'All'
+                ? state.routines
+                : state.routines.filter(r => r.category === selectedCategoryFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="lux-glass rounded-3xl p-8 text-center text-emerald-300/60 text-sm">
+                        No routines scheduled in this view. Add one above to begin your ascension!
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="lux-glass rounded-2xl p-4 flex items-center justify-between gap-3 ${item.completed ? 'opacity-60 border-emerald-500/10' : ''}">
+                    <div class="flex items-center gap-3.5 min-w-0">
+                        <button onclick="toggleRoutineComplete('${item.id}')" class="w-7 h-7 rounded-xl border-2 flex items-center justify-center transition shrink-0 ${item.completed ? 'bg-emerald-500 border-emerald-400 text-black' : 'border-emerald-400/50 hover:border-emerald-300'}">
+                            ${item.completed ? '<i class="fa-solid fa-check text-xs font-bold"></i>' : ''}
+                        </button>
+                        <div class="min-w-0">
+                            <h4 class="font-heading font-semibold text-sm sm:text-base text-white truncate ${item.completed ? 'line-through text-emerald-300/60' : ''}">${item.title}</h4>
+                            <div class="flex items-center gap-2 mt-1 text-xs">
+                                <span class="text-emerald-300 font-semibold"><i class="fa-regular fa-clock mr-1"></i>${formatTime12(item.time)}</span>
+                                <span class="px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-200 text-[10px]">${item.category}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="toggleRoutineAlarm('${item.id}')" title="Toggle Alarm" class="w-9 h-9 rounded-xl flex items-center justify-center border transition ${item.alarmEnabled ? 'bg-emerald-500/20 border-emerald-400/40 text-amber-300' : 'bg-black/30 border-white/10 text-gray-500'}">
+                            <i class="fa-solid ${item.alarmEnabled ? 'fa-bell' : 'fa-bell-slash'} text-xs"></i>
+                        </button>
+                        <button onclick="deleteRoutine('${item.id}')" title="Delete" class="w-9 h-9 rounded-xl bg-black/30 hover:bg-red-950/60 border border-white/10 hover:border-red-500/40 text-red-300 flex items-center justify-center transition">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCategories() {
+            const select = document.getElementById('rCategory');
+            select.innerHTML = state.categories.map(c => `<option value="${c}" class="bg-emeraldDeep text-white">${c}</option>`).join('');
+
+            const filterBar = document.getElementById('categoryFilterBar');
+            const allCats = ['All', ...state.categories];
+            filterBar.innerHTML = allCats.map(c => `
+                <button onclick="setCategoryFilter('${c}')" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition shrink-0 ${selectedCategoryFilter === c ? 'emerald-btn text-white' : 'lux-glass text-emerald-200 hover:text-white'}">
+                    ${c}
+                </button>
+            `).join('');
+
+            const customList = document.getElementById('customCategoriesList');
+            customList.innerHTML = state.categories.map(c => `
+                <span class="px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-400/30 text-xs text-emerald-200 flex items-center gap-2">
+                    ${c}
+                    <button onclick="removeCategory('${c}')" class="hover:text-red-400"><i class="fa-solid fa-xmark"></i></button>
+                </span>
+            `).join('');
+        }
+
+        function setCategoryFilter(cat) {
+            selectedCategoryFilter = cat;
+            renderCategories();
+            renderRoutines();
+        }
+
+        function addCustomCategory(e) {
+            e.preventDefault();
+            const val = document.getElementById('newCategoryInput').value.trim();
+            if (val && !state.categories.includes(val)) {
+                state.categories.push(val);
+                document.getElementById('newCategoryInput').value = '';
+                saveState();
+                renderCategories();
+            }
+        }
+
+        function removeCategory(cat) {
+            if (state.categories.length <= 1) return;
+            state.categories = state.categories.filter(c => c !== cat);
+            if (selectedCategoryFilter === cat) selectedCategoryFilter = 'All';
+            saveState();
+            renderCategories();
+            renderRoutines();
+        }
+
+        /* ==============================================================
+           5. 7-DAY HABIT TRACKER MATRIX
+        ============================================================== */
+        const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+        function renderHabits() {
+            const box = document.getElementById('habitsContainer');
+            box.innerHTML = state.habits.map(h => `
+                <div class="lux-glass rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <span class="font-heading font-semibold text-sm text-white">${h.name}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 ml-auto">
+                        ${h.days.map((done, dIdx) => `
+                            <button onclick="toggleHabitDay('${h.id}',${dIdx})" class="w-8 h-8 rounded-lg text-xs font-bold border transition ${done ? 'emerald-btn text-white border-emerald-300' : 'bg-black/40 border-emerald-500/20 text-emerald-300/60'}">
+                                ${dayLabels[dIdx]}
+                            </button>
+                        `).join('')}
+                        <button onclick="deleteHabit('${h.id}')" class="ml-2 text-red-400/70 hover:text-red-300 text-xs px-2">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addNewHabit(e) {
+            e.preventDefault();
+            const name = document.getElementById('newHabitInput').value.trim();
+            if (!name) return;
+            state.habits.push({
+                id: 'h_' + Date.now(),
+                name,
+                days: [false, false, false, false, false, false, false]
+            });
+            document.getElementById('newHabitInput').value = '';
+            saveState();
+            renderHabits();
+        }
+
+        function toggleHabitDay(habitId, dayIdx) {
+            const h = state.habits.find(item => item.id === habitId);
+            if (!h) return;
+            h.days[dayIdx] = !h.days[dayIdx];
+            state.xp += h.days[dayIdx] ? 15 : -15;
+            if (state.xp < 0) state.xp = 0;
+            saveState();
+            renderHabits();
+        }
+
+        function deleteHabit(habitId) {
+            state.habits = state.habits.filter(h => h.id !== habitId);
+            saveState();
+            renderHabits();
+        }
+
+        /* ==============================================================
+           6. COSMIC POMODORO FOCUS TIMER
+        ============================================================== */
+        let focusSeconds = 25 * 60;
+        let focusInitialSeconds = 25 * 60;
+        let focusTimerId = null;
+
+        function setFocusDuration(mins, label) {
+            pauseFocusTimer();
+            focusSeconds = mins * 60;
+            focusInitialSeconds = mins * 60;
+            document.getElementById('focusSessionLabel').textContent = label;
+            updateFocusDisplay();
+        }
+
+        function updateFocusDisplay() {
+            const m = String(Math.floor(focusSeconds / 60)).padStart(2, '0');
+            const s = String(focusSeconds % 60).padStart(2, '0');
+            document.getElementById('focusTimerDisplay').textContent = `${m}:${s}`;
+        }
+
+        function toggleFocusTimer() {
+            initAudio();
+            const btn = document.getElementById('focusStartBtn');
+            if (focusTimerId) {
+                pauseFocusTimer();
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+                document.getElementById('focusTimerSub').textContent = 'Deep Focus Active...';
+                focusTimerId = setInterval(() => {
+                    if (focusSeconds > 0) {
+                        focusSeconds--;
+                        updateFocusDisplay();
+                    } else {
+                        pauseFocusTimer();
+                        state.xp += 50;
+                        saveState();
+                        playChimeSequence();
+                        document.getElementById('focusTimerSub').textContent = 'Session Complete! +50 XP';
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseFocusTimer() {
+            if (focusTimerId) clearInterval(focusTimerId);
+            focusTimerId = null;
+            document.getElementById('focusStartBtn').innerHTML = '<i class="fa-solid fa-play"></i> Start Session';
+            document.getElementById('focusTimerSub').textContent = 'Paused / Standby';
+        }
+
+        function resetFocusTimer() {
+            pauseFocusTimer();
+            focusSeconds = focusInitialSeconds;
+            updateFocusDisplay();
+            document.getElementById('focusTimerSub').textContent = 'Ready to lock in';
+        }
+
+        /* ==============================================================
+           7. DASHBOARD METRICS, RANKS & UTILITIES
+        ============================================================== */
+        const RANKS = ['Cosmic Initiate', 'Emerald Seeker', 'Astral Architect', 'Nebula Vanguard', 'Chronos Master', 'Cosmic Sovereign'];
+
+        function updateDashboardStats() {
+            document.getElementById('userNameDisplay').textContent = state.userName;
+            document.getElementById('streakCount').textContent = state.streak;
+
+            const level = Math.floor(state.xp / 100) + 1;
+            const xpInLevel = state.xp % 100;
+            const rankTitle = RANKS[Math.min(level - 1, RANKS.length - 1)];
+
+            document.getElementById('userLevel').textContent = level;
+            document.getElementById('userRankTitle').textContent = rankTitle;
+            document.getElementById('userXP').textContent = state.xp;
+            document.getElementById('nextLevelXP').textContent = level * 100;
+            document.getElementById('xpBar').style.width = `${xpInLevel}%`;
+
+            const total = state.routines.length;
+            const done = state.routines.filter(r => r.completed).length;
+            const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+            const alarms = state.routines.filter(r => r.alarmEnabled && !r.completed).length;
+
+            document.getElementById('statRoutineDone').textContent = `${done} / ${total}`;
+            document.getElementById('statCompletionPct').textContent = `${pct}%`;
+            document.getElementById('statActiveAlarms').textContent = alarms;
+
+            // Find Next Upcoming Task
+            const nowHM = new Date().toTimeString().slice(0, 5);
+            const pending = state.routines
+                .filter(r => !r.completed && r.alarmEnabled)
+                .sort((a, b) => a.time.localeCompare(b.time));
+            const nextTask = pending.find(r => r.time >= nowHM) || pending[0];
+
+            if (nextTask) {
+                document.getElementById('nextTaskTitle').textContent = nextTask.title;
+                document.getElementById('nextTaskTime').textContent = formatTime12(nextTask.time);
+                document.getElementById('nextTaskCategory').textContent = nextTask.category;
+            } else {
+                document.getElementById('nextTaskTitle').textContent = 'All routines complete!';
+                document.getElementById('nextTaskTime').textContent = 'Rest & Recharge';
+                document.getElementById('nextTaskCategory').textContent = 'Done';
+            }
+        }
+
+        function editUserName() {
+            const name = prompt('Enter your display name:', state.userName);
+            if (name && name.trim()) {
+                state.userName = name.trim();
+                saveState();
+            }
+        }
+
+        function resetDayProgress() {
+            state.routines.forEach(r => r.completed = false);
+            state.streak += 1;
+            saveState();
+            renderRoutines();
+        }
+
+        function saveQuickNotes() {
+            state.notes = document.getElementById('quickNotesArea').value;
+            saveState();
+            const badge = document.getElementById('noteSaveBadge');
+            badge.textContent = 'Synced ✓';
+        }
+
+        function saveAlarmTone() {
+            state.alarmTone = document.getElementById('alarmToneSelect').value;
+            saveState();
+            playChimeSequence();
+        }
+
+        function exportUserData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", `Aetheria_Backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function switchTab(tabId) {
+            ['routine', 'habits', 'focus', 'vault'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`tabBtn-${t}`);
+                btn.classList.remove('emerald-btn', 'text-white');
+                btn.classList.add('lux-glass', 'text-emerald-200');
+            });
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tabBtn-${tabId}`);
+            activeBtn.classList.remove('lux-glass', 'text-emerald-200');
+            activeBtn.classList.add('emerald-btn', 'text-white');
+        }
+
+        /* ==============================================================
+           8. ANIMATED COSMIC STARFIELD BACKGROUND
+        ============================================================== */
+        const canvas = document.getElementById('cosmosCanvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = Array.from({ length: 85 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.6 + 0.3,
+                alpha: Math.random(),
+                speed: (Math.random() * 0.015) + 0.004,
+                driftY: (Math.random() * 0.25) + 0.05
+            }));
+        }
+
+        function animateCosmos() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                s.alpha += s.speed;
+                if (s.alpha > 1 || s.alpha < 0.15) s.speed = -s.speed;
+                s.y -= s.driftY;
+                if (s.y < 0) s.y = canvas.height;
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(110, 231, 183, ${Math.abs(s.alpha)})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateCosmos);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // INITIALIZE EVERYTHING ON LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            resizeCanvas();
+            animateCosmos();
+            tickClock();
+            document.getElementById('quickNotesArea').value = state.notes || '';
+            document.getElementById('alarmToneSelect').value = state.alarmTone || 'cosmic';
+            renderCategories();
+            renderRoutines();
+            renderHabits();
+            updateDashboardStats();
+        });
+    </script>
+</body>
+  </html>
